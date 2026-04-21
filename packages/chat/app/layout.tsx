@@ -1,4 +1,7 @@
-import { ClerkProvider } from "@clerk/nextjs";
+/**
+ * Root layout — dark theme, PWA, no auth required for free tier.
+ */
+
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 
@@ -14,19 +17,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className="min-h-screen bg-background text-text font-sans antialiased overscroll-none">
         <ThemeProvider attribute="class" forcedTheme="dark">
-          <ClerkProvider appearance={{
-            elements: {
-              card: "bg-surface border border-border rounded-xl",
-              headerTitle: "text-text",
-              formFieldLabel: "text-text-muted",
-              formFieldInput: "bg-surface-raised border-border text-text",
-              socialButtonsBlockButton: "border-border",
-              footerActionLink: "text-accent",
-              identityPreviewEditButton: "text-accent",
-            }
-          }}>
-            {children}
-          </ClerkProvider>
+          {children}
         </ThemeProvider>
       </body>
     </html>

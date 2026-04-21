@@ -30,7 +30,7 @@ export function Chat({ agentId, onToggleSidebar }: ChatProps) {
 
 const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
     api: `${process.env.NEXT_PUBLIC_AGENT_URL || "https://nimbus-agent.moikapy.workers.dev"}/?userId=${encodeURIComponent(userId)}`,
-    body: { agentId, model },  // userId is in URL, not body
+    body: { agentId, model },
     onError: (err) => {
       console.error("Chat error:", err.message);
       try {
