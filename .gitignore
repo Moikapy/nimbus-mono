@@ -1,0 +1,33 @@
+node_modules/
+dist/
+*.db
+*.sqlite
+coverage/
+.env
+.DS_Store
+*.log
+
+# Next.js
+.next/
+
+# Turbo
+.turbo/
+
+# Vite / bundler caches
+.bun/
+*.vite/
+.cache/
+
+# Generated wiki
+.codebase-wiki/
+
+# Generated wiki
+.codebase-wiki/
+.wiki/
+
+# Misc
+.idea/
+.vscode/
+*.swp
+*~
+

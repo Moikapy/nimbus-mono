@@ -1,0 +1,59 @@
+{
+  "name": "nimbus-agent",
+  "version": "0.2.0-alpha.1",
+  "description": "The Cloudflare agent harness. Everything except the model. One harness, many plugins.",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    },
+    "./local": {
+      "import": "./dist/local/index.js"
+    },
+    "./models": {
+      "import": "./dist/models/index.js"
+    },
+    "./presets": {
+      "import": "./dist/presets/index.js"
+    },
+    "./testing": {
+      "import": "./dist/testing/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit/",
+    "test:e2e": "vitest run --config vitest.config.e2e.ts tests/e2e/",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@cloudflare/ai-chat": "^0.4.6",
+    "agents": "^0.11.4",
+    "ai": "^6.0.168",
+    "ai-gateway-provider": "^3.1.0",
+    "ollama-ai-provider-v2": "^3.5.0",
+    "workers-ai-provider": "^3.1.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@ai-sdk/provider": "^3.0.8",
+    "@cloudflare/vitest-pool-workers": "^0.14.8",
+    "@cloudflare/workers-types": "^4.20250414.0",
+    "@types/node": "^25.6.0",
+    "ollama-ai-provider": "^1.2.0",
+    "typescript": "^5.8.0",
+    "vitest": "^4.1.0"
+  },
+  "peerDependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  },
+  "peerDependenciesMeta": {
+    "@modelcontextprotocol/sdk": {
+      "optional": true
+    }
+  },
+  "keywords": ["ai", "agent", "harness", "cloudflare", "workers-ai", "agents-sdk", "mcp", "local", "session-store"],
+  "license": "MIT"
+}

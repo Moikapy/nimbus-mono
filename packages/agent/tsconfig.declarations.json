@@ -1,0 +1,14 @@
+{
+  // Declarations build — emits .d.ts for library consumers
+  // Excludes nimbus-agent.ts and worker.ts which have TS4094 issues
+  // from extending AIChatAgent's private members
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "tests", "src/nimbus-agent.ts", "src/worker.ts"]
+}

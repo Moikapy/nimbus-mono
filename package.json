@@ -1,0 +1,23 @@
+{
+  "name": "nimbus-mono",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build": "bun run --filter '*' build",
+    "test": "bun run --filter '*' test",
+    "test:watch": "bun run --filter '*' test:watch",
+    "lint": "npx @biomejs/biome check .",
+    "lint:fix": "npx @biomejs/biome check --write .",
+    "demo:local": "bun run demo/local-chat.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "ai": "^6.0.168",
+    "ollama-ai-provider": "^1.2.0",
+    "typescript": "^5.8.0",
+    "zod": "^4.3.6"
+  },
+  "dependencies": {
+    "ollama-ai-provider-v2": "^3.5.0"
+  }
+}

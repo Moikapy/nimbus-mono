@@ -1,0 +1,44 @@
+{
+  "name": "nimbus-billing",
+  "version": "0.1.0",
+  "description": "Stripe billing & usage enforcement plugin for Nimbus agents. Free/Pro/Premier tiers.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./tiers": {
+      "import": "./dist/tiers.js",
+      "types": "./dist/tiers.d.ts"
+    },
+    "./stripe": {
+      "import": "./dist/stripe.js",
+      "types": "./dist/stripe.d.ts"
+    },
+    "./usage": {
+      "import": "./dist/usage.js",
+      "types": "./dist/usage.d.ts"
+    },
+    "./d1-schema": {
+      "import": "./dist/d1-schema.js",
+      "types": "./dist/d1-schema.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "stripe": "^18.0.0",
+    "zod": "^4.3.6"
+  },
+  "peerDependencies": {
+    "nimbus-agent": "workspace:*"
+  },
+  "keywords": ["nimbus", "billing", "stripe", "subscription", "usage", "tiers"],
+  "license": "MIT"
+}

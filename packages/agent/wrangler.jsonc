@@ -1,0 +1,29 @@
+{
+  // Nimbus Agent — Cloudflare Workers + Durable Objects configuration
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nimbus-agent",
+  "main": "src/worker.ts",
+  "compatibility_date": "2025-04-10",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "ai": {
+    "binding": "AI",
+    "remote": true
+  },
+
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "NIMBUS_AGENT",
+        "class_name": "NimbusChatAgent"
+      }
+    ]
+  },
+
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["NimbusChatAgent"]
+    }
+  ]
+}
