@@ -5,12 +5,12 @@
 ## Install
 
 ```bash
-bun add -g @nimbus/cli
+bun add -g @moikapy/nimbus-cli
 ```
 
 Or run directly:
 ```bash
-bunx @nimbus/cli init my-agent
+bunx @moikapy/nimbus-cli init my-agent
 ```
 
 ## Commands
@@ -39,58 +39,39 @@ nimbus deploy          # Deploy to production
 nimbus deploy -e dev   # Deploy to dev environment
 ```
 
-### `nimbus plugin-add <name>` — Add a plugin
+### `nimbus chat` — Terminal chat with any agent
 ```bash
-nimbus plugin-add http     # Built-in plugin
-nimbus plugin-add stripe   # Built-in plugin
+nimbus chat                                    # Default: ws://localhost:8787/agents/demo/demo-session
+nimbus chat --session my-session              # Custom session
+nimbus chat --agent my-agent --session s1     # Custom agent + session
+nimbus chat --base wss://agent.moikas.com     # Remote base URL
+nimbus chat -u wss://agent.moikas.com/agents/a/s # Full override
 ```
 
-### `nimbus plugin-list` — List plugins
+### `nimbus plugin` — Plugin management
 ```bash
-nimbus plugin-list       # Human readable
-nimbus plugin-list -j    # JSON output
+nimbus plugin add <name>      # Install plugin
+nimbus plugin list            # List installed
 ```
 
-### `nimbus model-list` — List AI models
+### `nimbus model` — AI model management
 ```bash
-nimbus model-list                    # All models
-nimbus model-list -p workers-ai     # Filter by provider
-nimbus model-list -j                # JSON output
-```
-
-### `nimbus model-use <id>` — Set default model
-```bash
-nimbus model-use llama3.2:latest
-nimbus model-use @cf/meta/llama-3.3-70b-instruct-fp8-fast
+nimbus model list             # List available models
+nimbus model use <name>       # Set default
 ```
 
 ### `nimbus logs` — Tail Cloudflare logs
 ```bash
-nimbus logs      # Follow logs
-nimbus logs -f   # Same (default)
+nimbus logs -f                # Follow logs
 ```
 
-### `nimbus version` — Show version
-```bash
-nimbus version
-```
+## Environment Variables
 
-## Quick Workflow
-
-```bash
-# 1. Create project
-nimbus init my-agent
-
-# 2. Start developing
-cd my-agent
-bun install
-nimbus dev          # Local server with Ollama
-
-# 3. Deploy
-cd my-agent
-nimbus deploy       # Cloudflare Workers
-```
+| Variable | Purpose |
+|----------|---------|
+| `NIMBUS_WS_URL` | Default WebSocket base URL |
+| `NIMBUS_AGENT` | Default agent name |
+| `NIMBUS_SESSION` | Default session ID |
 
 ## License
-
 MIT
