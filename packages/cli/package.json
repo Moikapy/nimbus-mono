@@ -1,0 +1,32 @@
+{
+  "name": "@nimbus/cli",
+  "version": "0.2.0-alpha.1",
+  "description": "Nimbus CLI — scaffold, develop, and deploy AI agents",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "nimbus": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@moikapy/kapy": "^0.2.1",
+    "chalk": "^5.4.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.0",
+    "typescript": "^5.8.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "templates"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}

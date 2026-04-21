@@ -1,0 +1,22 @@
+{
+  "name": "my-nimbus-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "migrations:apply": "wrangler d1 migrations apply nimbus-db",
+    "deploy:full": "wrangler deploy && wrangler d1 migrations apply nimbus-db",
+    "setup:db": "wrangler d1 create nimbus-db || true && wrangler d1 execute nimbus-db --file=../node_modules/nimbus-agent/migrations/0001_nimbus_tables.sql"
+  },
+  "dependencies": {
+    "nimbus-agent": "^0.2.0-alpha.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250414.0",
+    "typescript": "^5.8.0",
+    "wrangler": "^4.0.0"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "my-nimbus-agent",
+  "main": "src/worker.ts",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // ── AI Binding (Workers AI — free tier, 10k req/day) ──────
+  "ai": {
+    "binding": "AI"
+  },
+
+  // ── D1 Database (sessions + messages) ────────────────────
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "nimbus-db",
+      "database_id": "__YOUR_D1_DATABASE_ID__"
+    }
+  ],
+
+  // ── Durable Object ──────────────────────────────────────
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "MyAgent",
+        "class_name": "MyAgent"
+      }
+    ]
+  },
+
+  // ── Migrations (required for DO) ─────────────────────
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["MyAgent"]
+    }
+  ]
+}
