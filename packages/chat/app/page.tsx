@@ -1,11 +1,9 @@
-"use client";
+import ChatWrapper from "@/components/chat-wrapper";
 
-import { Chat } from "@/components/chat";
-
-export default function Page() {
+export default function ChatPage() {
   return (
     <div className="flex h-screen w-full">
-      <Chat agentId="default" onToggleSidebar={() => {}} />
+      <ChatWrapper />
     </div>
   );
 }

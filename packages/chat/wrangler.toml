@@ -1,17 +1,14 @@
-# 0xNIMBUS — Chat Worker Wrangler Config
-# Next.js app running as a Cloudflare Worker via @opennextjs/cloudflare
-
 name = "nimbus-chat"
 main = ".open-next/worker.js"
 compatibility_date = "2025-04-10"
 compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+preview_urls = false
 
 [assets]
 directory = ".open-next/assets"
 binding = "ASSETS"
+run_worker_first = true
 
 [vars]
 NEXT_PUBLIC_AGENT_URL = "https://nimbus-agent.moikapy.workers.dev"
-
-# Secrets via: wrangler secret put CLERK_PUBLISHABLE_KEY
-# Secrets via: wrangler secret put CLERK_SECRET_KEY

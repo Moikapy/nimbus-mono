@@ -24,9 +24,13 @@ export function Chat({ agentId, onToggleSidebar }: ChatProps) {
   const [showPricing, setShowPricing] = useState(false);
   const [showAuthPrompt, setShowAuthPrompt] = useState(false);
   const [model, setModel] = useState("@cf/zai-org/glm-4.7-flash");
+  const [userId, setUserId] = useState(" anon:guest"); // Default for SSR
 
-  const userId = getAnonId(); // anonymous until sign-in
-  const isAnon = !userId.startsWith("user_"); // Clerk IDs start with user_
+  useEffect(() => {
+    setUserId(getAnonId());
+  }, []);
+
+  const isAnon = !userId.startsWith("user_");
 
 const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
     api: `${process.env.NEXT_PUBLIC_AGENT_URL || "https://nimbus-agent.moikapy.workers.dev"}/?userId=${encodeURIComponent(userId)}`,

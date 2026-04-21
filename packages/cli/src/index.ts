@@ -25,6 +25,7 @@ import { pluginAddCommand, pluginListCommand } from "./commands/plugin.js";
 import { modelListCommand, modelUseCommand } from "./commands/model.js";
 import { logsCommand } from "./commands/logs.js";
 import { versionCommand } from "./commands/version.js";
+import { chatCommand } from "./commands/chat.js";
 
 const cli = kapy();
 
@@ -100,6 +101,14 @@ cli
       follow: { type: "boolean", alias: "f", description: "Follow log output", default: true },
     },
   }, logsCommand)
+
+  // Chat
+  .command("chat", {
+    description: "Launch interactive terminal chat UI",
+    flags: {
+      url: { type: "string", alias: "u", description: "WebSocket URL (default: ws://localhost:8787/agents/demo/demo-session)", default: "ws://localhost:8787/agents/demo/demo-session" },
+    },
+  }, chatCommand)
 
   // Version
   .command("version", {
