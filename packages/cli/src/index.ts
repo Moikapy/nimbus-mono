@@ -5,11 +5,14 @@
  *   nimbus init <name>      Scaffold a new agent project
  *   nimbus dev               Run local dev server
  *   nimbus local             Run local server (production mode)
+ *   nimbus login             Authenticate with Cloudflare / set API keys
+ *   nimbus config            Manage profiles and endpoints
  *   nimbus deploy            Deploy to Cloudflare Workers
  *   nimbus plugin add <name>  Add a plugin from registry
  *   nimbus plugin list        List installed plugins
  *   nimbus model list        List available AI models
  *   nimbus model use <name>  Set default model
+ *   nimbus chat              Launch interactive terminal chat
  *   nimbus logs              Tail Cloudflare logs
  *   nimbus --version         Show version
  *
@@ -24,6 +27,8 @@ import { deployCommand } from "./commands/deploy.js";
 import { pluginAddCommand, pluginListCommand } from "./commands/plugin.js";
 import { modelListCommand, modelUseCommand } from "./commands/model.js";
 import { logsCommand } from "./commands/logs.js";
+import { loginCommand } from "./commands/login.js";
+import { configCommand } from "./commands/config.js";
 import { versionCommand } from "./commands/version.js";
 import { chatCommand } from "./commands/chat.js";
 
@@ -101,6 +106,23 @@ cli
       follow: { type: "boolean", alias: "f", description: "Follow log output", default: true },
     },
   }, logsCommand)
+
+  // Auth & Config
+  .command("login", {
+    description: "Authenticate with Cloudflare or set API keys",
+    flags: {
+      provider: { type: "string", alias: "p", description: "Provider: cloudflare | openai | anthropic | gemini | groq | ollama", default: "cloudflare" },
+    },
+  }, loginCommand)
+
+  .command("config", {
+    description: "Manage profiles, endpoints, and settings",
+    args: [
+      { name: "action", default: "show", description: "show | set" },
+      { name: "key", default: "", description: "Config key to set" },
+      { name: "value", default: "", description: "Value to set" },
+    ],
+  }, configCommand)
 
   // Chat
   .command("chat", {

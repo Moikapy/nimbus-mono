@@ -7,6 +7,7 @@
 import * as readline from "node:readline";
 import { stdin as input, stdout as output } from "node:process";
 import type { CommandContext } from "@moikapy/kapy";
+import { loadConfig, getActiveProfile } from "../config/loader.js";
 
 interface ChatMessage {
   role: "user" | "assistant" | "system";
@@ -249,14 +250,18 @@ export const chatCommand = async (ctx: CommandContext): Promise<void> => {
 function buildChatUrl(ctx: CommandContext): string {
   if (ctx.args.url) return ctx.args.url as string;
 
+  const profile = getActiveProfile();
+
   const base =
     (ctx.args.base as string) ||
     process.env.NIMBUS_WS_URL ||
+    profile.baseUrl ||
     "ws://localhost:8787";
 
   const agent =
     (ctx.args.agent as string) ||
     process.env.NIMBUS_AGENT ||
+    profile.agent ||
     "demo";
 
   const session =
