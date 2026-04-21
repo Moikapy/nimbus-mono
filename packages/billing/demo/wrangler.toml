@@ -13,6 +13,12 @@ compatibility_flags = ["nodejs_compat"]
 binding = "AI"
 remote = true
 
+# AI Gateway for free caching
+# Create gateway at: https://developers.cloudflare.com/ai-gateway/get-started/
+[ai_gateway]
+binding = "AI_GATEWAY"
+id = "nimbus-gateway"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "nimbus-billing"

@@ -68,10 +68,11 @@ Profiles are stored in `~/.nimbus/config.json`. Credentials (API keys, tokens) a
 ### `nimbus chat` — Terminal chat with any agent
 ```bash
 nimbus chat                                    # Uses active profile
-nimbus chat --session my-session              # Custom session
-nimbus chat --agent my-agent --session s1     # Custom agent + session
-nimbus chat --base wss://agent.moikas.com     # Remote base URL
-nimbus chat -u wss://agent.moikas.com/agents/a/s # Full override
+nimbus chat --profile=cloudflare              # Switch profile for this command
+nimbus chat --session=my-session              # Custom session
+nimbus chat --agent=my-agent --session=s1     # Custom agent + session
+nimbus chat --base=wss://agent.moikas.com     # Remote base URL
+nimbus chat --url=wss://agent.moikas.com/agents/a/s # Full override
 ```
 
 ### `nimbus deploy` — Deploy to Cloudflare Workers

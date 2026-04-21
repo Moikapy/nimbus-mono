@@ -1,23 +1,8 @@
 /**
- * 0xNIMBUS — Billing Plugin
- *
- * Stripe billing & usage enforcement plugin for Nimbus agents.
- * Free/Pro/Premier tier management, usage tracking, and model gating.
- *
- * Usage:
- *   import { billingPlugin } from "nimbus-billing";
- *   export class MyAgent extends NimbusChatAgent {
- *     constructor(ctx, env) {
- *       super(ctx, env);
- *       this.use(billingPlugin);
- *     }
- *   }
+ * 0xNIMBUS — Billing Plugin Exports
  */
 
-// Plugin
 export { billingPlugin } from "./plugin";
-
-// Tier configuration
 export {
   TIER_LIMITS,
   TIER_PRICES,
@@ -28,16 +13,12 @@ export {
   getAllowedModels,
   formatPrice,
 } from "./tiers";
-
-// Usage tracking
 export {
   checkUsageLimit,
   incrementUsage,
   recordMessageUsage,
   getCurrentUsage,
 } from "./usage";
-
-// Stripe helpers
 export {
   createStripeClient,
   createCheckoutSession,
@@ -50,14 +31,32 @@ export {
   verifyWebhookSignature,
   cancelSubscription,
 } from "./stripe";
-
-// Anonymous user tracking
-export { isAnonymous, toAnonId, getAnyUserTier, getRemainingUsage, linkAnonymousUser } from "./anon";
-
-// Database
+export {
+  isAnonymous,
+  toAnonId,
+  getAnyUserTier,
+  getRemainingUsage,
+  linkAnonymousUser,
+} from "./anon";
+export {
+  setProviderKey,
+  getProviderKey,
+  listProviderKeys,
+  deleteProviderKey,
+  resolveUserAIConfig,
+} from "./byok";
 export { applyMigrations, MIGRATIONS } from "./d1-schema";
-
-// Types
+export {
+  WORKERS_AI_MODELS,
+  BYOK_MODELS,
+  FLAVOR_OF_THE_MONTH,
+  setFlavorOfTheMonth,
+  getAllModelsForUser,
+  getDefaultModel,
+  isModelAvailable,
+  getModelCategories,
+  estimateAICost,
+} from "./models";
 export type {
   Tier,
   GatedFeature,
@@ -72,3 +71,5 @@ export type {
   TierLimits,
   TierConfig,
 } from "./types";
+export type { ModelInfo } from "./models";
+export type { ProviderKeyName } from "./byok";

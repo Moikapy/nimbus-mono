@@ -11,9 +11,10 @@
 import { NimbusChatAgent } from "nimbus-agent";
 import { billingPlugin } from "../src/plugin";
 import { getUserTier } from "../src/stripe";
-import { getAnyUserTier, isAnonymous, getRemainingUsage } from "../src/anon";
+import { getAnyUserTier, isAnonymous } from "../src/anon";
 import { incrementUsage, checkUsageLimit } from "../src/usage";
 import { TIER_LIMITS, isModelAllowed } from "../src/tiers";
+import { getDefaultModel } from "../src/models";
 
 interface BillingEnv {
   AI: Ai;
@@ -23,6 +24,8 @@ interface BillingEnv {
   STRIPE_PRICE_PRO: string;
   STRIPE_PRICE_PREMIER: string;
   UPGRADE_URL?: string;
+  /** AI Gateway ID for free caching (e.g. "nimbus-gateway") */
+  AI_GATEWAY?: string;
 }
 
 export class BillingChatAgent extends NimbusChatAgent {
@@ -54,24 +57,8 @@ export class BillingChatAgent extends NimbusChatAgent {
     }
 
     const tier = isAnonymous(userId) ? "free" : await getUserTier(userId, env.DB);
-    const model = this.getModelRef();
 
-    // 1. Model access check
-    const limits = TIER_LIMITS[tier];
-    if (limits.models !== "all" && !limits.models.includes(model)) {
-      return new Response(
-        JSON.stringify({
-          error: "model_not_allowed",
-          message: `The model '${model}' is not available on your ${tier} plan.`,
-          tier,
-          model,
-          upgradeUrl: env.UPGRADE_URL ?? "/pricing",
-        }),
-        { status: 403, headers: { "Content-Type": "application/json" } },
-      );
-    }
-
-    // 2. Message count check (monthly)
+    // 1. Message count check (monthly)
     const usage = await checkUsageLimit(userId, "messages", tier, env.DB, env.UPGRADE_URL);
     if (!usage.allowed) {
       const isAnon = isAnonymous(userId);
@@ -90,11 +77,27 @@ export class BillingChatAgent extends NimbusChatAgent {
       );
     }
 
+    // 2. Set model based on tier (Pro/Premier can choose, Free gets FOTM)
+    const requestedModel = (this.getModelRef?.() || "") || getDefaultModel(tier);
+    if (!isModelAllowed(requestedModel, tier)) {
+      return new Response(
+        JSON.stringify({
+          error: "model_not_allowed",
+          message: `The model '${requestedModel}' is not available on your ${tier} plan.`,
+          tier,
+          model: requestedModel,
+          upgradeUrl: env.UPGRADE_URL ?? "/pricing",
+        }),
+        { status: 403, headers: { "Content-Type": "application/json" } },
+      );
+    }
+    this.setModel(requestedModel || getDefaultModel(tier));
+
     // 3. Stream the response
     const result = await super.onChatMessage();
 
     // 4. Record usage asynchronously (fire-and-forget)
-    incrementUsage(userId, "messages", env.DB, { model }).catch((err: unknown) =>
+    incrementUsage(userId, "messages", env.DB, { model: requestedModel }).catch((err: unknown) =>
       console.error("Usage tracking failed:", err),
     );
 

@@ -128,10 +128,11 @@ cli
   .command("chat", {
     description: "Launch interactive terminal chat UI",
     flags: {
-      url: { type: "string", alias: "u", description: "Full WebSocket URL (overrides base/agent/session)" },
-      base: { type: "string", alias: "b", description: "Base URL (default: ws://localhost:8787)", default: "ws://localhost:8787" },
-      agent: { type: "string", alias: "a", description: "Agent name (default: demo)", default: "demo" },
-      session: { type: "string", alias: "s", description: "Session ID (default: demo-session)", default: "demo-session" },
+      url: { type: "string", alias: "u", description: "Full WebSocket URL (use --url=ws://...)" },
+      base: { type: "string", alias: "b", description: "Base URL (use --base=ws://...)" },
+      agent: { type: "string", alias: "a", description: "Agent name (use --agent=demo)" },
+      session: { type: "string", alias: "s", description: "Session ID (use --session=demo-session)" },
+      profile: { type: "string", alias: "P", description: "Use a saved profile (use --profile=local)" },
     },
   }, chatCommand)
 

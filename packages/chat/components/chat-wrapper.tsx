@@ -1,22 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Sidebar } from "./sidebar";
 import { Chat } from "./chat";
 
 export default function ChatWrapper() {
-  const [mounted, setMounted] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <div className="text-text-muted text-sm">Loading...</div>
+  return (
+    <div className="flex h-full w-full">
+      <Sidebar
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onSelect={() => setSidebarOpen(false)}
+        currentAgentId="default"
+      />
+      <div className="flex-1 min-w-0 lg:pl-72 transition-all duration-200">
+        <Chat agentId="default" onToggleSidebar={() => setSidebarOpen((s) => !s)} />
       </div>
-    );
-  }
-
-  return <Chat agentId="default" onToggleSidebar={() => {}} />;
+    </div>
+  );
 }

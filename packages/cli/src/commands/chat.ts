@@ -7,7 +7,7 @@
 import * as readline from "node:readline";
 import { stdin as input, stdout as output } from "node:process";
 import type { CommandContext } from "@moikapy/kapy";
-import { loadConfig, getActiveProfile } from "../config/loader.js";
+import { loadConfig } from "../config/loader.js";
 
 interface ChatMessage {
   role: "user" | "assistant" | "system";
@@ -250,22 +250,32 @@ export const chatCommand = async (ctx: CommandContext): Promise<void> => {
 function buildChatUrl(ctx: CommandContext): string {
   if (ctx.args.url) return ctx.args.url as string;
 
-  const profile = getActiveProfile();
+  let config = loadConfig();
+
+  // If --profile is specified, switch to that profile for this command
+  const profileName = (ctx.args.profile as string | undefined);
+  if (profileName && typeof profileName === "string" && profileName !== "true" && profileName !== "1") {
+    const found = config.profiles.find((p) => p.name === profileName);
+    if (!found) throw new Error(`Profile not found: ${profileName}. Run \`nimbus config show\` to list.`);
+    config = { ...config, activeProfile: profileName };
+  }
+
+  const profile = config.profiles.find((p) => p.name === config.activeProfile) ?? config.profiles[0];
 
   const base =
-    (ctx.args.base as string) ||
+    (typeof ctx.args.base === "string" ? ctx.args.base : undefined) ||
     process.env.NIMBUS_WS_URL ||
     profile.baseUrl ||
     "ws://localhost:8787";
 
   const agent =
-    (ctx.args.agent as string) ||
+    (typeof ctx.args.agent === "string" ? ctx.args.agent : undefined) ||
     process.env.NIMBUS_AGENT ||
     profile.agent ||
     "demo";
 
   const session =
-    (ctx.args.session as string) ||
+    (typeof ctx.args.session === "string" ? ctx.args.session : undefined) ||
     process.env.NIMBUS_SESSION ||
     "demo-session";
 

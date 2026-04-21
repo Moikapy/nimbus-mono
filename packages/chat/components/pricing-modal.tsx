@@ -53,12 +53,12 @@ function priceLabel(cents: number): string {
 export function PricingModal({ onClose, currentTier, showAuth }: PricingModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-background border border-border rounded-2xl shadow-2xl">
+      <div className="relative w-full max-w-4xl max-h-[90dvh] overflow-y-auto bg-background border border-border rounded-2xl shadow-2xl">
         <button onClick={onClose} className="absolute top-3 right-3 p-2 rounded-lg hover:bg-surface-raised text-text-muted hover:text-text transition-colors">
           <X className="w-5 h-5" />
         </button>
 
-        <div className="p-8">
+        <div className="p-4 sm:p-8">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-semibold tracking-tight">Choose your plan</h2>
             <p className="text-text-muted text-sm mt-2">Start free. Upgrade when you need more.</p>
@@ -80,7 +80,7 @@ export function PricingModal({ onClose, currentTier, showAuth }: PricingModalPro
               return (
                 <div
                   key={tier.id}
-                  className={`relative border rounded-xl p-6 flex flex-col ${
+                  className={`relative border rounded-xl p-4 sm:p-6 flex flex-col ${
                     isCurrent ? "border-accent bg-accent/5" : "border-border bg-surface hover:border-text-muted/30 transition-colors"
                   }`}
                 >

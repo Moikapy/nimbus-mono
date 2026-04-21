@@ -44,7 +44,7 @@ export function Sidebar({ open, onClose, onSelect, currentAgentId }: SidebarProp
       {open && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={onClose} />}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 bg-background border-r border-border flex flex-col transition-transform duration-200 ${
+        className={`fixed inset-y-0 left-0 z-50 w-[85vw] max-w-72 sm:w-72 bg-background border-r border-border flex flex-col transition-transform duration-200 ${
           open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >

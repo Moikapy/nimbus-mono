@@ -31,6 +31,19 @@ CREATE INDEX IF NOT EXISTS idx_subscriptions_user_id ON subscriptions(user_id);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_stripe_subscription_id ON subscriptions(stripe_subscription_id);
 CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions(status);
 
+-- Provider keys: BYOK (Bring Your Own Key) storage
+CREATE TABLE IF NOT EXISTS provider_keys (
+  user_id TEXT NOT NULL REFERENCES users(id),
+  provider TEXT NOT NULL CHECK (provider IN ('openai', 'anthropic', 'google', 'groq', 'deepseek')),
+  key_encrypted TEXT NOT NULL,
+  default_model TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  PRIMARY KEY (user_id, provider)
+);
+
+CREATE INDEX IF NOT EXISTS idx_provider_keys_user ON provider_keys(user_id);
+
 -- Usage logs: tracks per-feature usage per billing period
 CREATE TABLE IF NOT EXISTS usage_logs (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

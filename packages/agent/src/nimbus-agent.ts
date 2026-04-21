@@ -4,9 +4,10 @@
  * NimbusChatAgent extends AIChatAgent from the Cloudflare Agents SDK.
  * Uses the same plugin logic as NimbusLocal (core/plugins.ts).
  *
- * Can't extend both AIChatAgent and NimbusBase (TS single inheritance),
- * so we compose: AIChatAgent is the base, plugin methods are inline
- * using the same shared functions.
+ * AI Gateway Support:
+ * Set env.AI_GATEWAY to your gateway ID (e.g. "my-gateway") to route
+ * all Workers AI calls through Cloudflare AI Gateway with free caching.
+ * Same question twice = second call costs zero neurons.
  */
 
 import { AIChatAgent } from "@cloudflare/ai-chat";
@@ -24,6 +25,8 @@ import {
 
 export interface Env {
   AI: Ai;
+  /** Optional: AI Gateway ID for caching (e.g. "my-gateway") */
+  AI_GATEWAY?: string;
   [key: string]: unknown;
 }
 
@@ -61,8 +64,20 @@ export class NimbusChatAgent extends AIChatAgent<Env> {
     return this._pluginState.modelRef;
   }
 
-  /** Resolve model using Workers AI binding. */
+  /**
+   * Resolve model using Workers AI binding.
+   * If AI_GATEWAY is configured, routes through gateway for free caching.
+   */
   resolveModel() {
+    const gatewayId = this.env.AI_GATEWAY;
+    if (gatewayId) {
+      // Use AI Gateway for caching + observability
+      return createWorkersAI({
+        binding: this.env.AI,
+        gateway: { id: gatewayId },
+      })(this._pluginState.modelRef);
+    }
+    // Direct Workers AI (no caching)
     return createWorkersAI({ binding: this.env.AI })(this._pluginState.modelRef);
   }
 
