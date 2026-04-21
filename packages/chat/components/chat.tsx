@@ -24,7 +24,7 @@ export function Chat({ agentId, onToggleSidebar }: ChatProps) {
   const [showPricing, setShowPricing] = useState(false);
   const [showAuthPrompt, setShowAuthPrompt] = useState(false);
   const [model, setModel] = useState("@cf/zai-org/glm-4.7-flash");
-  const [userId, setUserId] = useState(" anon:guest"); // Default for SSR
+  const [userId, setUserId] = useState("anon:guest"); // Default for SSR
 
   useEffect(() => {
     setUserId(getAnonId());
@@ -116,7 +116,9 @@ const { messages, input, handleInputChange, handleSubmit, isLoading, error } = u
                       : "bg-surface-raised text-text"
                   }`}
                 >
-                  <pre className="whitespace-pre-wrap font-sans">{msg.content}</pre>
+                  <pre className="whitespace-pre-wrap font-sans">
+                {msg.parts?.map((p: any) => p.type === "text" ? p.text : "").join("") || msg.content || ""}
+              </pre>
                 </div>
               </div>
             ))}
@@ -178,7 +180,7 @@ const { messages, input, handleInputChange, handleSubmit, isLoading, error } = u
 
               <button
                 type="submit"
-                disabled={isLoading || !input.trim()}
+                disabled={isLoading || !(input ?? "").trim()}
                 className="p-1.5 rounded-lg bg-accent hover:bg-accent-hover disabled:opacity-30 disabled:hover:bg-accent text-white transition-colors"
               >
                 <Send className="w-4 h-4" />

@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "bun test"
+    "test": "bun test",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@moikapy/kapy": "^0.2.1",
@@ -23,8 +24,7 @@
   },
   "files": [
     "dist",
-    "README.md",
-    "templates"
+    "README.md"
   ],
   "license": "MIT",
   "engines": {
