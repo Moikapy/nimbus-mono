@@ -1,0 +1,44 @@
+/**
+ * 0xNIMBUS — Billing Worker Wrangler Config
+ *
+ * Deploy the billing agent as its own standalone Worker.
+ * Domain: agent.moikapy.dev (via Cloudflare DNS route)
+ */
+
+name = "nimbus-billing-agent"
+main = "worker.ts"
+compatibility_date = "2025-04-10"
+compatibility_flags = ["nodejs_compat"]
+
+# Route the agent to agent.moikapy.dev
+[[routes]]
+pattern = "agent.moikapy.dev/*"
+custom_domain = true
+
+[ai]
+binding = "AI"
+remote = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "nimbus-billing"
+# Replace with your actual D1 database ID after creation:
+# database_id = "your-db-id"
+
+# Durable Objects for the chat agent
+[[durable_objects.bindings]]
+name = "BillingChatAgent"
+class_name = "BillingChatAgent"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["BillingChatAgent"]
+
+[vars]
+UPGRADE_URL = "https://chat.moikapy.dev/pricing"
+
+# Secrets (set via `wrangler secret put`):
+# STRIPE_SECRET_KEY
+# STRIPE_WEBHOOK_SECRET
+# STRIPE_PRICE_PRO
+# STRIPE_PRICE_PREMIER

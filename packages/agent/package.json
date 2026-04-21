@@ -26,8 +26,14 @@
     "test": "vitest run",
     "test:unit": "vitest run tests/unit/",
     "test:e2e": "vitest run --config vitest.config.e2e.ts tests/e2e/",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "tsc"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "migrations"
+  ],
   "dependencies": {
     "@cloudflare/ai-chat": "^0.4.6",
     "agents": "^0.11.4",
