@@ -1,5 +1,5 @@
 {
-  "name": "@nimbus/cli",
+  "name": "@moikapy/nimbus-cli",
   "version": "0.2.0-alpha.1",
   "description": "Nimbus CLI — scaffold, develop, and deploy AI agents",
   "type": "module",
