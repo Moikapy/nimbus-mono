@@ -28,9 +28,9 @@ export function Chat({ agentId, onToggleSidebar }: ChatProps) {
   const userId = getAnonId(); // anonymous until sign-in
   const isAnon = !userId.startsWith("user_"); // Clerk IDs start with user_
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
-    api: "/api/chat",
-    body: { agentId, model, userId },
+const { messages, input, handleInputChange, handleSubmit, isLoading, error } = useChat({
+    api: `${process.env.NEXT_PUBLIC_AGENT_URL || "https://nimbus-agent.moikapy.workers.dev"}/?userId=${encodeURIComponent(userId)}`,
+    body: { agentId, model },  // userId is in URL, not body
     onError: (err) => {
       console.error("Chat error:", err.message);
       try {

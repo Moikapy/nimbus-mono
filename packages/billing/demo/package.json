@@ -1,0 +1,5 @@
+{
+  "name": "nimbus-billing-demo",
+  "private": true,
+  "main": "worker.ts"
+}

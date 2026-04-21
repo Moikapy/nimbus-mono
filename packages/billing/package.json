@@ -32,6 +32,9 @@
     "test": "vitest run",
     "test:watch": "vitest"
   },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250414.0"
+  },
   "dependencies": {
     "stripe": "^18.0.0",
     "zod": "^4.3.6"

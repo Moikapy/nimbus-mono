@@ -1,24 +1,17 @@
 /**
  * API: /api/chat
  * Proxies streaming requests to the standalone NimbusChatAgent Worker.
- * Passes userId (anonymous fingerprint or Clerk ID) in the URL.
  */
 
 import { NextRequest, NextResponse } from "next/server";
 
-const AGENT_URL = process.env.NEXT_PUBLIC_AGENT_URL;
+const AGENT_URL = process.env.NEXT_PUBLIC_AGENT_URL || "https://nimbus-agent.moikapy.workers.dev";
 
 export async function POST(req: NextRequest) {
-  if (!AGENT_URL) {
-    return new NextResponse("Agent URL not configured", { status: 500 });
-  }
-
   try {
     const body = await req.json();
-    const userId = body.userId || body.anonId || "anon:guest";
-
-    // Clean up body before forwarding
-    const { userId: _u, anonId: _a, ...agentBody } = body;
+    const userId = body.userId || "anon:guest";
+    const { userId: _u, ...agentBody } = body;
 
     const res = await fetch(`${AGENT_URL}?userId=${encodeURIComponent(userId)}`, {
       method: "POST",
@@ -31,7 +24,6 @@ export async function POST(req: NextRequest) {
       return new Response(err || "Agent error", { status: res.status });
     }
 
-    // Stream back to client
     return new Response(res.body, {
       status: 200,
       headers: {

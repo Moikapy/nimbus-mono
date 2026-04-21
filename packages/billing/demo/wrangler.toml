@@ -1,19 +1,13 @@
-/**
- * 0xNIMBUS — Billing Worker Wrangler Config
- *
- * Deploy the billing agent as its own standalone Worker.
- * Domain: agent.moikapy.dev (via Cloudflare DNS route)
- */
+# 0xNIMBUS — Billing Worker Wrangler Config
+# Deploy the billing agent as a standalone Worker.
+# Uses default workers.dev domain; add agent.moikapy.dev later via
+# Cloudflare dashboard → Workers & Pages → Custom domains.
+# Build entrypoint: worker.ts
 
-name = "nimbus-billing-agent"
+name = "nimbus-agent"
 main = "worker.ts"
 compatibility_date = "2025-04-10"
 compatibility_flags = ["nodejs_compat"]
-
-# Route the agent to agent.moikapy.dev
-[[routes]]
-pattern = "agent.moikapy.dev/*"
-custom_domain = true
 
 [ai]
 binding = "AI"
@@ -22,10 +16,9 @@ remote = true
 [[d1_databases]]
 binding = "DB"
 database_name = "nimbus-billing"
-# Replace with your actual D1 database ID after creation:
-# database_id = "your-db-id"
+# ⬇️ Replace after: wrangler d1 create nimbus-billing
+database_id = "baf285d7-591a-4848-be8d-f21c613e5473"
 
-# Durable Objects for the chat agent
 [[durable_objects.bindings]]
 name = "BillingChatAgent"
 class_name = "BillingChatAgent"
@@ -35,10 +28,10 @@ tag = "v1"
 new_sqlite_classes = ["BillingChatAgent"]
 
 [vars]
-UPGRADE_URL = "https://chat.moikapy.dev/pricing"
+# Placeholder — set real domain after you add it in Cloudflare
+UPGRADE_URL = "https://nimbus-chat.pages.dev/pricing"
 
-# Secrets (set via `wrangler secret put`):
-# STRIPE_SECRET_KEY
-# STRIPE_WEBHOOK_SECRET
-# STRIPE_PRICE_PRO
-# STRIPE_PRICE_PREMIER
+# Secrets: wrangler secret put STRIPE_SECRET_KEY
+# Secrets: wrangler secret put STRIPE_WEBHOOK_SECRET
+# Secrets: wrangler secret put STRIPE_PRICE_PRO
+# Secrets: wrangler secret put STRIPE_PRICE_PREMIER

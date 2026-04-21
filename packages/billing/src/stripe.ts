@@ -14,11 +14,11 @@ import type { BillingEnv, Tier, SubscriptionRow, SubscriptionStatus } from "./ty
 
 /**
  * Create a configured Stripe client.
- * Use API version 2024-12-18.acacia for latest features.
+ * Use API version 2025-02-24.acacia for latest features.
  */
 export function createStripeClient(secretKey: string): Stripe {
   return new Stripe(secretKey, {
-    apiVersion: "2024-12-18.acacia",
+    apiVersion: "2025-08-27.basil" as any,
     httpClient: Stripe.createFetchHttpClient(), // Works in Workers
   });
 }
@@ -179,6 +179,9 @@ export async function handleSubscriptionWebhook(
       }
 
       // Upsert subscription record
+      const periodStart = (subscription as any).current_period_start;
+      const periodEnd = (subscription as any).current_period_end;
+
       await db
         .prepare(
           `INSERT INTO subscriptions (id, user_id, stripe_customer_id, stripe_subscription_id, stripe_price_id, tier, status, current_period_start, current_period_end, cancel_at_period_end, created_at, updated_at)
@@ -194,14 +197,14 @@ export async function handleSubscriptionWebhook(
           priceId ?? "",
           tier,
           subscription.status,
-          new Date(subscription.current_period_start * 1000).toISOString(),
-          new Date(subscription.current_period_end * 1000).toISOString(),
+          new Date(periodStart * 1000).toISOString(),
+          new Date(periodEnd * 1000).toISOString(),
           subscription.cancel_at_period_end ? 1 : 0,
           tier,
           subscription.status,
           priceId ?? "",
-          new Date(subscription.current_period_start * 1000).toISOString(),
-          new Date(subscription.current_period_end * 1000).toISOString(),
+          new Date(periodStart * 1000).toISOString(),
+          new Date(periodEnd * 1000).toISOString(),
           subscription.cancel_at_period_end ? 1 : 0,
         )
         .run();
@@ -237,7 +240,7 @@ export async function handleSubscriptionWebhook(
 
     case "invoice.payment_failed": {
       const invoice = event.data.object as Stripe.Invoice;
-      const subscriptionId = invoice.subscription as string;
+      const subscriptionId = (invoice as any).subscription as string;
 
       if (!subscriptionId) return;
 

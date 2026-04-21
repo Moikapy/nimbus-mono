@@ -9,11 +9,11 @@
  */
 
 import { NimbusChatAgent } from "nimbus-agent";
-import { billingPlugin } from "nimbus-billing";
-import { getUserTier } from "nimbus-billing/stripe";
-import { getAnyUserTier, isAnonymous, getRemainingUsage } from "nimbus-billing/anon";
-import { incrementUsage, checkUsageLimit } from "nimbus-billing/usage";
-import { TIER_LIMITS, isModelAllowed } from "nimbus-billing/tiers";
+import { billingPlugin } from "../src/plugin";
+import { getUserTier } from "../src/stripe";
+import { getAnyUserTier, isAnonymous, getRemainingUsage } from "../src/anon";
+import { incrementUsage, checkUsageLimit } from "../src/usage";
+import { TIER_LIMITS, isModelAllowed } from "../src/tiers";
 
 interface BillingEnv {
   AI: Ai;

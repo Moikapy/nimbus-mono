@@ -1,24 +1,17 @@
-/**
- * 0xNIMBUS — Chat Pages Wrangler Config
- *
- * Deploy the Next.js chat app to Cloudflare Pages.
- * Domain: chat.moikapy.dev (custom domain)
- */
+# 0xNIMBUS — Chat Worker Wrangler Config
+# Next.js app running as a Cloudflare Worker via @opennextjs/cloudflare
 
 name = "nimbus-chat"
+main = ".open-next/worker.js"
 compatibility_date = "2025-04-10"
 compatibility_flags = ["nodejs_compat"]
 
-# Build output directory for Pages
-pages_build_output_dir = ".vercel/output/static"
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
 
 [vars]
-NEXT_PUBLIC_AGENT_URL = "https://agent.moikapy.dev"
+NEXT_PUBLIC_AGENT_URL = "https://nimbus-agent.moikapy.workers.dev"
 
-# Secrets (set via `wrangler pages secret put`):
-# CLERK_SECRET_KEY
-# STRIPE_SECRET_KEY
-# STRIPE_WEBHOOK_SECRET
-# STRIPE_PRICE_PRO
-# STRIPE_PRICE_PREMIER
-# NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY (public, set as env var)
+# Secrets via: wrangler secret put CLERK_PUBLISHABLE_KEY
+# Secrets via: wrangler secret put CLERK_SECRET_KEY
