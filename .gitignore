@@ -13,10 +13,16 @@ coverage/
 # Turbo
 .turbo/
 
+# Wrangler
+.wrangler/
+
 # Vite / bundler caches
 .bun/
 *.vite/
 .cache/
+
+# OpenNext
+.open-next/
 
 # Generated wiki
 .codebase-wiki/
